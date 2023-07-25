@@ -43,6 +43,7 @@
     </div>
     <?php
     require_once("settings.php");
+    require_once("functions/utils.php");
     if (!$_SERVER["REQUEST_METHOD"] == "POST") {
         return;
     }
@@ -50,18 +51,20 @@
     $pname = trim($_POST["pname"]);
     $p1 = trim($_POST["p1"]);
     $p2 = trim($_POST["p1"]);
+    $err = rValidate($email, $pname, $p1, $p2);
+    if (count($err) > 0) {
+        foreach ($err as $errm) {
+            echo $errm;
+        }
+        return;
+    }
+
 
     $conn = new mysqli("feenix-mariadb.swin.edu.au", $username, $password, $dbname);
     if ($conn->connect_error)
         die("Unable to connect");
     try {
-        $query = "CREATE TABLE IF NOT EXISTS `friends` ( `friend_id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
-        `friend_email` VARCHAR(50) NOT NULL, `password` VARCHAR(20) NOT NULL, `profile_name` VARCHAR(30) NOT NULL,
-        `date_started` DATE NOT NULL, `num_of_friends` INTEGER UNSIGNED);";
-        $conn->query($query);
-        $query = "CREATE TABLE IF NOT EXISTS `myfriends` ( `friend_id1` INT NOT NULL, `friend_id2` INT NOT NULL)";
-        $conn->query($query);
-        $query = "SELECT * FROM `friends` LIMIT 1";
+        $query = "SELECT * FROM `friends` WHERE `friend_email`='$email' LIMIT 1";
         $result = $conn->query($query);
         $nodata = true;
         if ($result->num_rows > 0) {

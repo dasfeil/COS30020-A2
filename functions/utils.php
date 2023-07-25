@@ -5,10 +5,10 @@ function rValidate($email, $pname, $p1, $p2)
     if (empty($email)) {
         array_push($err, "<p>Email cannot be empty</p>");
     }
-    if (empty($pname)) {
-        array_push($err, "<p>Profile name cannot be empty</p>");
+    if (preg_match('/^[a-zA-Z]+$/', $pname) == false) {
+        array_push($err, "<p>Profile name cannot be empty and contain only letters</p>");
     }
-    if (empty($p1)) {
+    if (preg_match('/^[\w]+$/', $pname) == false) {
         array_push($err, "<p>Password cannot be empty</p>");
     }
     else if (empty($p2)) {
@@ -16,6 +16,9 @@ function rValidate($email, $pname, $p1, $p2)
     }
     if (strcmp($p1, $p2) !== 0) {
         array_push($err, "<p>Passwords do not match</p>");
+    }
+    if (preg_match('/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/', $email) == false) {
+        array_push($err, "<p>Email must be in valid format</p>");
     }
     return $err;
 }
