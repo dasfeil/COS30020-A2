@@ -21,30 +21,27 @@
     </nav>
     <div class="">
         <h1>My Friend System Registration Page</h1>
-        <form action="<?php echo htmlspecialchars($_SERVER['$PHP_SELF']); ?>" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
             <label for="email">Email: </label>
-            <input id="email" name="email" />
+            <input id="email" name="email" value="<?php echo isset($_POST['email'])? $_POST['email']:''; ?>"/> <br/>
             <label for="pname">Profile Name: </label>
-            <input id="pname" name="pname" />
+            <input id="pname" name="pname" value="<?php echo isset($_POST['pname'])? $_POST['pname']:''; ?>"/> <br/>
             <label for="p1">Password: </label>
-            <input id="p1" type="password" name="p1" />
+            <input id="p1" type="password" name="p1" value="<?php echo isset($_POST['p1'])? $_POST['p1']:''; ?>"/> <br/>
             <label for="p2">Confirm Password: </label>
-            <input id="p2" type="password" name="p2" />
+            <input id="p2" type="password" name="p2" value="<?php echo isset($_POST['p2'])? $_POST['p2  ']:''; ?>"/> <br/>
             <div>
                 <button type="submit">Register</button>
                 <button type="reset">Clear</button>
             </div>
         </form>
         <div class="">
-            <div><a href="#">Sign-Up</a></div>
-            <div><a href="#">Log-In</a></div>
-            <div><a href="#">About</a></div>
         </div>
     </div>
     <?php
     require_once("settings.php");
     require_once("functions/utils.php");
-    if (!$_SERVER["REQUEST_METHOD"] == "POST") {
+    if ($_SERVER["REQUEST_METHOD"] !== "POST") {
         return;
     }
     $email = trim($_POST["email"]);
@@ -71,17 +68,10 @@
             $nodata = false;
         }
         if ($nodata) {
-            foreach ($friendsdata as $data) {
-                $query = "INSERT INTO `friends` (`friend_email`, `password`, `profile_name`, `date_started`, `num_of_friends`) 
-                VALUES ('" . $data['friend_email'] . "','" . $data['password'] . "','" . $data['profile_name'] . "','" .
-                    $data['date_started'] . "','" . $data['num_of_friends'] . "');";
-                $conn->query($query);
-            }
-            foreach ($myfriendsdata as $data) {
-                $query = "INSERT INTO `myfriends` (`friend_id1`, `friend_id2`) 
-                VALUES ('" . $data['friend_id1'] . "','" . $data['friend_id2'] . "');";
-                $conn->query($query);
-            }
+            $query = "INSERT INTO `friends` VALUE (0, '$email', '$p1', '$pname', '" . date("Y-m-d") . "', 0)";
+            $conn->query($query);
+        } else {
+            echo "<p>This email is already taken</p>";
         }
         echo "<p>Tables successfully created and populated</p>";
     } catch (Exception $e) {

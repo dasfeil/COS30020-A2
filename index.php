@@ -30,7 +30,7 @@
             copied from any other student's work or from any other source</a>
         </p>
         <div class="">
-            <div><a href="#">Sign-Up</a></div>
+            <div><a href="signup.php">Sign-Up</a></div>
             <div><a href="#">Log-In</a></div>
             <div><a href="#">About</a></div>
         </div>
