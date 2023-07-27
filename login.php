@@ -36,17 +36,12 @@ if ($_SESSION["logged"] !== false) {
             <label for="email">Email: </label>
             <input id="email" name="email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>" />
             <br />
-            <label for="pname">Profile Name: </label>
-            <input id="pname" name="pname" value="<?php echo isset($_POST['pname']) ? $_POST['pname'] : ''; ?>" />
-            <br />
-            <label for="p1">Password: </label>
-            <input id="p1" type="password" name="p1" value="<?php echo isset($_POST['p1']) ? $_POST['p1'] : ''; ?>" />
-            <br />
-            <label for="p2">Confirm Password: </label>
-            <input id="p2" type="password" name="p2" value="<?php echo isset($_POST['p2']) ? $_POST['p2'] : ''; ?>" />
+            <label for="pass">Confirm Password: </label>
+            <input id="pass" type="password" name="pass"
+                value="<?php echo isset($_POST['pass']) ? $_POST['pass'] : ''; ?>" />
             <br />
             <div>
-                <button type="submit">Register</button>
+                <button type="submit">Login</button>
                 <button type="reset">Clear</button>
             </div>
         </form>
@@ -61,33 +56,33 @@ if ($_SESSION["logged"] !== false) {
         return;
     }
     $email = trim($_POST["email"]);
-    $pname = trim($_POST["pname"]);
-    $p1 = trim($_POST["p1"]);
-    $p2 = trim($_POST["p1"]);
-    $err = rValidate($email, $pname, $p1, $p2);
+    $pass = trim($_POST["pass"]);
+    $err = lValidate($email, $pass);
     if (count($err) > 0) {
         foreach ($err as $errm) {
             echo $errm;
         }
         return;
     }
-
     try {
         $conn = @new mysqli("feenix-mariadb.swin.edu.au", $username, $password, $dbname);
         $query = "SELECT * FROM `friends` WHERE `friend_email`='$email' LIMIT 1";
         $result = $conn->query($query);
-        $nodata = true;
+        $exist = false;
         if ($result->num_rows > 0) {
-            $nodata = false;
+            $exist = true;
         }
-        if ($nodata) {
-            $query = "INSERT INTO `friends` VALUE (0, '$email', '$p1', '$pname', '" . date("Y-m-d") . "', 0)";
-            $conn->query($query);
+        if (!$exist) {
+            echo "<p>Incorrect email or password</p>";
+            return;
+        }
+        $user = $result->fetch_assoc();
+        if (strcmp($pass, $user["password"] !== 0)) {
+            echo "<p>Incorrect email or password</p>";
+        } else {
             $_SESSION["logged"] = true;
             $_SESSION["user"] = new Friend($email);
-            header("location: friendadd.php");
-        } else {
-            echo "<p>This email is already taken</p>";
+            header("location: friendlist.php");
         }
         $conn->close();
     } catch (Exception $e) {
