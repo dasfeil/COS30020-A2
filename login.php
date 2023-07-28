@@ -1,11 +1,10 @@
 <?php
 session_start();
-if (!isset($_SESSION["logged"])) {
-    $_SESSION["logged"] = false;
-    $_SESSION["user"] = "";
+if (!isset($_SESSION["user"])) {
+    $_SESSION["user"] = null;
 }
-if ($_SESSION["logged"] !== false) {
-    header("location: index.php");
+if ($_SESSION["user"] !== null) {
+    header("location: friendlist.php");
 }
 ?>
 
@@ -17,7 +16,7 @@ if ($_SESSION["logged"] !== false) {
     <meta name="description" content="Web application development" />
     <meta name="keywords" content="PHP" />
     <meta name="author" content="Nguyen The Vinh" />
-    <title>Assignment 1</title>
+    <title>Assignment 2</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -36,7 +35,7 @@ if ($_SESSION["logged"] !== false) {
             <label for="email">Email: </label>
             <input id="email" name="email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>" />
             <br />
-            <label for="pass">Confirm Password: </label>
+            <label for="pass">Password: </label>
             <input id="pass" type="password" name="pass"
                 value="<?php echo isset($_POST['pass']) ? $_POST['pass'] : ''; ?>" />
             <br />
@@ -50,8 +49,9 @@ if ($_SESSION["logged"] !== false) {
         </div>
     </div>
     <?php
-    require_once("settings.php");
-    require_once("functions/utils.php");
+    include_once("settings.php");
+    include_once("functions/utils.php");
+    include_once("friendclass.php");
     if ($_SERVER["REQUEST_METHOD"] !== "POST") {
         return;
     }
@@ -77,14 +77,12 @@ if ($_SESSION["logged"] !== false) {
             return;
         }
         $user = $result->fetch_assoc();
-        if (strcmp($pass, $user["password"] !== 0)) {
+        if (strcmp($pass, $user["password"]) !== 0) {
             echo "<p>Incorrect email or password</p>";
         } else {
-            $_SESSION["logged"] = true;
             $_SESSION["user"] = new Friend($email);
             header("location: friendlist.php");
         }
-        $conn->close();
     } catch (Exception $e) {
         echo "<p>". $e->getMessage() ."</p>";
     }

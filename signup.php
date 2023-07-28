@@ -1,10 +1,9 @@
 <?php
 session_start();
-if (!isset($_SESSION["logged"])) {
-    $_SESSION["logged"] = false;
-    $_SESSION["user"] = "";
+if (!isset($_SESSION["user"])) {
+    $_SESSION["user"] = null;
 }
-if ($_SESSION["logged"] !== false) {
+if ($_SESSION["user"] !== null) {
     header("location: index.php");
 }
 ?>
@@ -17,7 +16,7 @@ if ($_SESSION["logged"] !== false) {
     <meta name="description" content="Web application development" />
     <meta name="keywords" content="PHP" />
     <meta name="author" content="Nguyen The Vinh" />
-    <title>Assignment 1</title>
+    <title>Assignment 2</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -57,6 +56,7 @@ if ($_SESSION["logged"] !== false) {
     <?php
     require_once("settings.php");
     require_once("functions/utils.php");
+    require_once("friendclass.php");
     if ($_SERVER["REQUEST_METHOD"] !== "POST") {
         return;
     }
@@ -83,13 +83,11 @@ if ($_SESSION["logged"] !== false) {
         if ($nodata) {
             $query = "INSERT INTO `friends` VALUE (0, '$email', '$p1', '$pname', '" . date("Y-m-d") . "', 0)";
             $conn->query($query);
-            $_SESSION["logged"] = true;
             $_SESSION["user"] = new Friend($email);
             header("location: friendadd.php");
         } else {
             echo "<p>This email is already taken</p>";
         }
-        $conn->close();
     } catch (Exception $e) {
         echo "<p>". $e->getMessage() ."</p>";
     }

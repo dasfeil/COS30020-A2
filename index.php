@@ -1,10 +1,8 @@
 <?php
 session_start();
-if (!isset($_SESSION["logged"])) {
-    $_SESSION["logged"] = false;
+if (!isset($_SESSION["user"])) {
     $_SESSION["user"] = null;
 }
-$logged = $_SESSION["logged"];
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +13,7 @@ $logged = $_SESSION["logged"];
     <meta name="description" content="Web application development" />
     <meta name="keywords" content="PHP" />
     <meta name="author" content="Nguyen The Vinh" />
-    <title>Assignment 1</title>
+    <title>Assignment 2</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -40,7 +38,7 @@ $logged = $_SESSION["logged"];
         </p>
         <div class="">
             <div><a href="signup.php">Sign-Up</a></div>
-            <div><a href="#">Log-In</a></div>
+            <div><a href="login.php">Log-In</a></div>
             <div><a href="#">About</a></div>
         </div>
     </div>
@@ -74,7 +72,6 @@ $logged = $_SESSION["logged"];
             }
         }
         echo "<p>Tables successfully created and populated</p>";
-        $conn->close();
     } catch (Exception $e) {
         echo "<p>". $e->getMessage() ."</p>";
     }
