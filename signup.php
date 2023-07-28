@@ -27,6 +27,33 @@ if ($_SESSION["user"] !== null) {
                 class="<?php echo basename(htmlspecialchars($_SERVER["PHP_SELF"])) == "index.php" ? "liactive" : ""; ?>">
                 <a href="index.php">Home</a>
             </li>
+            <?php if ($_SESSION["user"] == null): ?>
+                <li
+                    class="<?php echo basename(htmlspecialchars($_SERVER["PHP_SELF"])) == "signup.php" ? "liactive" : ""; ?>">
+                    <a href="signup.php">Signup</a>
+                </li>
+                <li
+                    class="<?php echo basename(htmlspecialchars($_SERVER["PHP_SELF"])) == "login.php" ? "liactive" : ""; ?>">
+                    <a href="login.php">Login</a>
+                </li>
+            <?php else: ?>
+                <li
+                    class="<?php echo basename(htmlspecialchars($_SERVER["PHP_SELF"])) == "friendlist.php" ? "liactive" : ""; ?>">
+                    <a href="friendlist.php">Friend List</a>
+                </li>
+                <li
+                    class="<?php echo basename(htmlspecialchars($_SERVER["PHP_SELF"])) == "friendadd.php" ? "liactive" : ""; ?>">
+                    <a href="friendadd.php">Friend Add</a>
+                </li>
+                <li
+                    class="<?php echo basename(htmlspecialchars($_SERVER["PHP_SELF"])) == "logout.php" ? "liactive" : ""; ?>">
+                    <a href="logout.php">Logout</a>
+                </li>
+            <?php endif; ?>
+            <li
+                class="<?php echo basename(htmlspecialchars($_SERVER["PHP_SELF"])) == "login.php" ? "liactive" : ""; ?>">
+                <a href="about.php">About</a>
+            </li>
         </ul>
     </nav>
     <div class="">
@@ -89,7 +116,7 @@ if ($_SESSION["user"] !== null) {
             echo "<p>This email is already taken</p>";
         }
     } catch (Exception $e) {
-        echo "<p>". $e->getMessage() ."</p>";
+        echo "<p>" . $e->getMessage() . "</p>";
     }
     ?>
 </body>
