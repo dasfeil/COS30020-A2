@@ -37,4 +37,5 @@ function lValidate($email, $pass) {
     }
     return $err;
 }
+
 ?>

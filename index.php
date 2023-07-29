@@ -48,7 +48,7 @@ if (!isset($_SESSION["user"])) {
                 </li>
             <?php endif; ?>
             <li
-                class="<?php echo basename(htmlspecialchars($_SERVER["PHP_SELF"])) == "login.php" ? "liactive" : ""; ?>">
+                class="<?php echo basename(htmlspecialchars($_SERVER["PHP_SELF"])) == "about.php" ? "liactive" : ""; ?>">
                 <a href="about.php">About</a>
             </li>
         </ul>
@@ -103,15 +103,11 @@ if (!isset($_SESSION["user"])) {
                 }
                 echo "<p class=\"text-center\">Tables successfully created and populated</p>";
             } catch (Exception $e) {
-                echo "<p>" . $e->getMessage() . "</p>";
+                echo "<div class=\"center error\">";
+                echo "<p class=\"text-center\">" . $e->getMessage() . "</p>";
+                echo "</div>";
             }
             ?>
-
-            <div class="">
-                <div><a href="signup.php">Sign-Up</a></div>
-                <div><a href="login.php">Log-In</a></div>
-                <div><a href="#">About</a></div>
-            </div>
         </div>
 
     </div>

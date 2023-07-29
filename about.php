@@ -48,12 +48,29 @@ if (!isset($_SESSION["user"])) {
                 </li>
             <?php endif; ?>
             <li
-                class="<?php echo basename(htmlspecialchars($_SERVER["PHP_SELF"])) == "login.php" ? "liactive" : ""; ?>">
+                class="<?php echo basename(htmlspecialchars($_SERVER["PHP_SELF"])) == "about.php" ? "liactive" : ""; ?>">
                 <a href="about.php">About</a>
             </li>
         </ul>
     </nav>
-    <div class="">
+    <div class="center container">
+        <div class="content">
+            <h2 class="text-center">About</h2>
+            <div class="about-content center">
+                <p>All tasks attempted/completed</p>
+                <p>No special function attempted for the site</p>
+                <p>I had the most trouble with the part where we get mutual friends</p>
+                <p>If I were given the same project with less restriction, i.e., being able to use javascript I would
+                    try to create a more visually appealing website</p>
+                <p>A small addition, a navigation bar that change links based on session variable</p>
+                <p>You need to login to access friendlist and friendadd page</p>
+                <p><a href="friendlist.php"><span style="color: white;">Friend List</span></a></p>
+                <p><a href="friendadd.php"><span style="color: white;">Friend Add</span></a></p>
+                <p><a href="index.php"><span style="color: white;">Home Page</span></a></p>
+                <img class="d-img" src="images/discussion.png" />
+            </div>
+
+        </div>
     </div>
     <?php
     ?>

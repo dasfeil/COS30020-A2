@@ -58,32 +58,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </li>
             <?php endif; ?>
             <li
-                class="<?php echo basename(htmlspecialchars($_SERVER["PHP_SELF"])) == "login.php" ? "liactive" : ""; ?>">
+                class="<?php echo basename(htmlspecialchars($_SERVER["PHP_SELF"])) == "about.php" ? "liactive" : ""; ?>">
                 <a href="about.php">About</a>
             </li>
         </ul>
     </nav>
-    <div class="">
-        <h2>My Friend System</h2>
-        <?php
-        echo "<h2>" . $user->getUser()["profile_name"] . "'s Friend List Page</h2>";
-        echo "<h2>Total number of friends is " . $user->friendCount() . "</h2>";
-        ?>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <?php foreach ($user->getFriends() as $f): ?>
-                <div>
-                    <?= $f["profile_name"]; ?>
-                    <button type="submit" name="id" value="<?= $f["id"] ?>">Unfriend</button>
+    <div class="center container">
+        <div class="content">
+            <h2 class="text-center">My Friend System</h2>
+            <h2 class="text-center">
+                <?= $user->getUser()["profile_name"] . "'s Friend List Page" ?>
+            </h2>
+            <h2 class="text-center">
+                <?= "Total number of friends is " . $user->friendCount() ?>
+            </h2>
+            <form class="center" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <div class="list center <?= $user->friendCount() == 0? "display-none": ""?>">
+                    <?php foreach ($user->getFriends() as $f): ?>
+                        <div class="row">
+                            <div>
+                                <p><?= $f["profile_name"]; ?></p>
+                            </div>
+                            <button type="submit" name="id" value="<?= $f["id"] ?>">Unfriend</button>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
-            <?php endforeach; ?>
-        </form>
-        <div class="">
-            <div><a href="friendadd.php">Add Friends</a></div>
-            <div><a href="logout.php">Logout</a></div>
+            </form>
         </div>
     </div>
-    <?php
-    ?>
 </body>
 
 </html>

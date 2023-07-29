@@ -89,52 +89,64 @@ try {
                 </li>
             <?php endif; ?>
             <li
-                class="<?php echo basename(htmlspecialchars($_SERVER["PHP_SELF"])) == "login.php" ? "liactive" : ""; ?>">
+                class="<?php echo basename(htmlspecialchars($_SERVER["PHP_SELF"])) == "about.php" ? "liactive" : ""; ?>">
                 <a href="about.php">About</a>
             </li>
         </ul>
     </nav>
-    <div class="">
-        <h2>My Friend System</h2>
-        <?php
-        echo "<h2>" . $user->getUser()["profile_name"] . "'s Add Friend Page</h2>";
-        echo "<h2>Total number of friends is " . $user->friendCount() . "</h2>";
-        ?>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <?php while ($friend = $result->fetch_assoc()): ?>
-                <div>
-                    <?= $friend["profile_name"]; ?>
-                    <?php
-                    $query = "SELECT COUNT(a.mutual_friend) AS mutual FROM
-                    (
-                      SELECT friend_id2 mutual_friend FROM myfriends WHERE friend_id1 = " . $user->getUser()["friend_id"] . "
-                        UNION 
-                      SELECT friend_id1 mutual_friend FROM myfriends WHERE friend_id2 = " . $user->getUser()["friend_id"] . "
-                    ) AS a
-                    JOIN  
-                    (
-                      SELECT friend_id2 mutual_friend FROM myfriends WHERE friend_id1 = " . $friend["friend_id"] . "
-                        UNION 
-                      SELECT friend_id1 mutual_friend FROM myfriends WHERE friend_id2 = " . $friend["friend_id"] . "
-                    ) AS b 
-                    ON a.mutual_friend = b.mutual_friend";
-                    $mutual = $conn->query($query);
-                    echo "<span>" . $mutual->fetch_assoc()["mutual"] . " mutual friends</span>";
-                    ?>
-                    <button type="submit" name="id" value="<?= $friend["friend_id"] ?>">Add as friend</button>
+    <div class="center container">
+        <div class="content">
+            <h2 class="text-center">My Friend System</h2>
+            <h2 class="text-center">
+                <?= $user->getUser()["profile_name"] . "'s Add Friend Page" ?>
+            </h2>
+            <h2 class="text-center">
+                <?= "Total number of friends is " . $user->friendCount() ?>
+            </h2>
+            <form class="center" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <div class="center list">
+                    <?php while ($friend = $result->fetch_assoc()): ?>
+                        <div class="row">
+                            <div>
+                                <p>
+                                    <?= $friend["profile_name"]; ?>
+                                </p>
+                            </div>
+                            <?php
+                            $query = "SELECT COUNT(a.mutual_friend) AS mutual FROM
+                            (
+                            SELECT friend_id2 mutual_friend FROM myfriends WHERE friend_id1 = " . $user->getUser()["friend_id"] . "
+                                UNION 
+                            SELECT friend_id1 mutual_friend FROM myfriends WHERE friend_id2 = " . $user->getUser()["friend_id"] . "
+                            ) AS a
+                            JOIN  
+                            (
+                            SELECT friend_id2 mutual_friend FROM myfriends WHERE friend_id1 = " . $friend["friend_id"] . "
+                                UNION 
+                            SELECT friend_id1 mutual_friend FROM myfriends WHERE friend_id2 = " . $friend["friend_id"] . "
+                            ) AS b 
+                            ON a.mutual_friend = b.mutual_friend";
+                            $mutual = $conn->query($query);
+                            echo "<div><p>" . $mutual->fetch_assoc()["mutual"] . " mutual friends</p></div>";
+                            ?>
+                            <button type="submit" name="id" value="<?= $friend["friend_id"] ?>">Add as friend</button>
+                        </div>
+                    <?php endwhile; ?>
                 </div>
-            <?php endwhile; ?>
-            <?php if ($page > 1): ?>
-                <a href="friendadd.php?page=<?= $page - 1 ?>">Previous</a>
-            <?php endif; ?>
-            <?php if ($page < $page_count): ?>
-                <a href="friendadd.php?page=<?= $page + 1 ?>">Next</a>
-            <?php endif; ?>
-            <div class="">
-                <div><a href="friendlist.php">Friend Lists</a></div>
-                <div><a href="logout.php">Log out</a></div>
-            </div>
-        </form>
+                <div class="center pgbtn-container">
+                    <?php if ($page > 1): ?>
+                        <div class="previous btn">
+                            <a href="friendadd.php?page=<?= $page - 1 ?>">Previous</a>
+                        </div>
+                    <?php endif; ?>
+                    <?php if ($page < $page_count): ?>
+                        <div class="next btn">
+                            <a href="friendadd.php?page=<?= $page + 1 ?>">Next</a>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </form>
+        </div>
     </div>
     <?php
     ?>
