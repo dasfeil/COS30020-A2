@@ -57,26 +57,17 @@ class Friend
         return $this->friends;
     }
 
-    private function useConn() {
-        require("settings.php");
-        try {
-            $this->conn->ping();   
-        } catch (error) {
-            $this->conn = new mysqli($host, $username, $password, $dbname);
-        }
-        return $this->conn;
-    }
-
     public function unfriend($fid) {
-        $conn = $this->useConn();
+        require("settings.php");
+        $this->conn = new mysqli($host, $username, $password, $dbname);
         $id = $this->user["friend_id"];
         $query = "SELECT * FROM friends WHERE friend_id = '$fid' OR friend_id = '$id'";
-        $result = $conn->query($query);
+        $result = $this->conn->query($query);
         while ($friend = $result->fetch_assoc()) {
             $friend["num_of_friends"]--;
         }
         $query = "DELETE FROM myfriends WHERE (friend_id1 = '$id' AND friend_id2 = '$fid') OR (friend_id1 = '$fid' AND friend_id2 = '$id') LIMIT 1";
-        $conn->query($query);
+        $this->conn->query($query);
         $temp = 0;
         foreach ($this->friends as $key=>$f) {
             if (strcmp($f["id"], $fid) == 0) {
@@ -88,10 +79,11 @@ class Friend
     }
 
     public function addfriend($fid) {
-        $conn = $this->useConn();
+        require("settings.php");
+        $this->conn = new mysqli($host, $username, $password, $dbname);
         $id = $this->user["friend_id"];
         $query = "SELECT * FROM friends WHERE friend_id = '$fid' OR friend_id = '$id'";
-        $result = $conn->query($query);
+        $result = $this->conn->query($query);
         while ($friend = $result->fetch_assoc()) {
             $friend["num_of_friends"]++;
             if (strcmp($friend["friend_id"],$fid) == 0) {
@@ -99,7 +91,7 @@ class Friend
             }
         }
         $query = "INSERT INTO myfriends VALUES ($id, $fid)";
-        $conn->query($query);
+        $this->conn->query($query);
     }
 }
 ?>

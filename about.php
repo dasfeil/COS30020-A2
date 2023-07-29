@@ -58,7 +58,7 @@ if (!isset($_SESSION["user"])) {
             <h2 class="text-center">About</h2>
             <div class="about-content center">
                 <p>All tasks attempted/completed</p>
-                <p>No special function attempted for the site</p>
+                <p>Created a class for logged in user and serialize it as a session variable</p>
                 <p>I had the most trouble with the part where we get mutual friends</p>
                 <p>If I were given the same project with less restriction, i.e., being able to use javascript I would
                     try to create a more visually appealing website</p>
@@ -67,7 +67,7 @@ if (!isset($_SESSION["user"])) {
                 <p><a href="friendlist.php"><span style="color: white;">Friend List</span></a></p>
                 <p><a href="friendadd.php"><span style="color: white;">Friend Add</span></a></p>
                 <p><a href="index.php"><span style="color: white;">Home Page</span></a></p>
-                <img class="d-img" src="images/discussion.png" />
+                <img alt="Discussion image" class="d-img" src="images/discussion.png" />
             </div>
 
         </div>

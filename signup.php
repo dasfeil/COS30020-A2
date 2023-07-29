@@ -1,8 +1,10 @@
 <?php
 session_start();
+//Initialize session variable if it's null
 if (!isset($_SESSION["user"])) {
     $_SESSION["user"] = null;
 }
+//Redirect the user if the session variable is not null
 if ($_SESSION["user"] !== null) {
     header("location: index.php");
 }
@@ -72,13 +74,11 @@ if ($_SESSION["user"] !== null) {
                 </div>
                 <div class="text-input">
                     <label for="p1">Password: </label>
-                    <input id="p1" type="password" name="p1"
-                        value="<?php echo isset($_POST['p1']) ? $_POST['p1'] : ''; ?>" />
+                    <input id="p1" type="password" name="p1"/>
                 </div>
                 <div class="text-input">
                     <label for="p2">Confirm Password: </label>
-                    <input id="p2" type="password" name="p2"
-                        value="<?php echo isset($_POST['p2']) ? $_POST['p2'] : ''; ?>" />
+                    <input id="p2" type="password" name="p2"/>
                 </div>
                 <?php
                 require_once("settings.php");
@@ -93,7 +93,7 @@ if ($_SESSION["user"] !== null) {
                     $email = trim($_POST["email"]);
                     $pname = trim($_POST["pname"]);
                     $p1 = trim($_POST["p1"]);
-                    $p2 = trim($_POST["p1"]);
+                    $p2 = trim($_POST["p2"]);
                     $err = rValidate($email, $pname, $p1, $p2);
                     if (count($err) > 0) {
                         echo "<div class=\"center error\">";
@@ -134,7 +134,7 @@ if ($_SESSION["user"] !== null) {
                 ?>
                 <div class="center">
                     <button type="submit">Register</button>
-                    <button type="reset">Clear</button>
+                    <button type="reset" onclick="<?php unset($_POST); ?>">Clear</button>
                 </div>
             </form>
         </div>

@@ -1,5 +1,6 @@
 <?php
 require_once("friendclass.php");
+//Check session variable
 session_start();
 if (!isset($_SESSION["user"])) {
     $_SESSION["user"] = null;
@@ -8,6 +9,7 @@ if ($_SESSION["user"] == null) {
     header("location: index.php");
 }
 $user = $_SESSION["user"];
+//Check if the post request is sent then perform the self post function
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST["id"];
     $user->unfriend($id);
@@ -72,6 +74,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h2 class="text-center">
                 <?= "Total number of friends is " . $user->friendCount() ?>
             </h2>
+
+            <!-- Creating a list of friend with while loop -->
+            
             <form class="center" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <div class="list center <?= $user->friendCount() == 0? "display-none": ""?>">
                     <?php foreach ($user->getFriends() as $f): ?>

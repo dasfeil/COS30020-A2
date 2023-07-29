@@ -1,4 +1,5 @@
 <?php
+//Check session variable
 require_once("friendclass.php");
 session_start();
 if (!isset($_SESSION["user"])) {
@@ -8,6 +9,8 @@ if ($_SESSION["user"] == null) {
     header("location: index.php");
 }
 $user = $_SESSION["user"];
+
+//Check if the post request is sent then perform the self post function
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST["id"];
     $user->addfriend($id);
@@ -22,7 +25,7 @@ try {
 
     $query = "SELECT * FROM friends";
     $result = $conn->query($query);
-    $count = $result->num_rows - 1;
+    $count = $result->num_rows - count($user->getFriends()) - 1;
 
     $page_count = ceil($count / $friends_per_page);
 
@@ -105,6 +108,8 @@ try {
             </h2>
             <form class="center" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <div class="center list">
+
+                <!-- Creating a list of friend with while loop -->
                     <?php while ($friend = $result->fetch_assoc()): ?>
                         <div class="row">
                             <div>
@@ -133,6 +138,9 @@ try {
                         </div>
                     <?php endwhile; ?>
                 </div>
+
+                <!-- Next/Previous page buttons -->
+
                 <div class="center pgbtn-container">
                     <?php if ($page > 1): ?>
                         <div class="previous btn">

@@ -1,8 +1,11 @@
 <?php
 session_start();
+//Initialize session variable if it's null
 if (!isset($_SESSION["user"])) {
     $_SESSION["user"] = null;
 }
+
+//Redirect the user if the session variable is not null
 if ($_SESSION["user"] !== null) {
     header("location: friendlist.php");
 }
@@ -67,17 +70,20 @@ if ($_SESSION["user"] !== null) {
                 </div>
                 <div class="text-input">
                     <label for="pass">Password: </label>
-                    <input id="pass" type="password" name="pass"
-                        value="<?php echo isset($_POST['pass']) ? $_POST['pass'] : ''; ?>" />
+                    <input id="pass" type="password" name="pass"/>
                 </div>
                 <?php
                 include_once("settings.php");
                 include_once("functions/utils.php");
                 include_once("friendclass.php");
+
+                //Check posted status
                 $nopost = false;
                 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
                     $nopost = true;
                 }
+
+                //Check for invalid data
                 $invalid = false;
                 if (!$nopost) {
                     $email = trim($_POST["email"]);
@@ -92,6 +98,8 @@ if ($_SESSION["user"] !== null) {
                         $invalid = true;
                     }
                 }
+
+                //If everything is valid then query data
                 if (!$nopost && !$invalid) {
                     try {
                         $conn = @new mysqli("feenix-mariadb.swin.edu.au", $username, $password, $dbname);
@@ -106,6 +114,8 @@ if ($_SESSION["user"] !== null) {
                             echo "<p>Incorrect email or password</p>";
                             echo "</div>";
                         }
+                        //If user email exist in table then check password, if it's valid create a class object 
+                        //for session variable and redirect user
                         $user = $result->fetch_assoc();
                         if (strcmp($pass, $user["password"]) !== 0) {
                             echo "<div class=\"center error\">";
@@ -124,7 +134,7 @@ if ($_SESSION["user"] !== null) {
                 ?>
                 <div class="center">
                     <button type="submit">Login</button>
-                    <button type="reset">Clear</button>
+                    <button type="reset" onclick="<?php unset($_POST); ?>">Clear</button>
                 </div>
             </form>
         </div>

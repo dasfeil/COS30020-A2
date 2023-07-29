@@ -199,7 +199,7 @@ button:hover {
 }
 
 .btn {
-  padding: 10px;
+  display: flex;
   min-width: 20%;
   border: rgb(177, 177, 177) solid 1px;
   background-color: #2b5c74;
@@ -208,12 +208,18 @@ button:hover {
   text-align: center;
 }
 
+.btn:hover {
+  background-color: #5791ad;
+}
+
 .previous {
   float: left;
 }
 
 .btn a {
   text-decoration: none;
+  margin: 0;
+  padding: 10px;
 }
 
 .next {

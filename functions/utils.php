@@ -1,4 +1,6 @@
 <?php
+
+//Validation functions for register and login
 function rValidate($email, $pname, $p1, $p2)
 {
     $err = array();
@@ -14,7 +16,7 @@ function rValidate($email, $pname, $p1, $p2)
     if (preg_match('/^[\w]+$/', $p1) == 0) {
         array_push($err, "<p>Password cannot be empty and contain only letter and number</p>");
     }
-    else if (empty($p2)) {
+    if (empty($p2)) {
         array_push($err, "<p>Please retype your password</p>");
     }
     if (strcmp($p1, $p2) !== 0) {

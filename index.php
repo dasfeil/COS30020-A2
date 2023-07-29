@@ -1,5 +1,6 @@
 <?php
 session_start();
+//Initialize session variable
 if (!isset($_SESSION["user"])) {
     $_SESSION["user"] = null;
 }
@@ -64,7 +65,7 @@ if (!isset($_SESSION["user"])) {
                     <p>
                         I declare that this assignment is my individual work.
                         I have not worked collaboratively nor have I
-                        copied from any other student's work or from any other source</a>
+                        copied from any other student's work or from any other source
                     </p>
                 </div>
                 <div class="img-container">
@@ -75,6 +76,7 @@ if (!isset($_SESSION["user"])) {
             <?php
             require_once("settings.php");
             try {
+                //DB setup
                 $conn = @new mysqli("feenix-mariadb.swin.edu.au", $username, $password, $dbname);
                 $query = "CREATE TABLE IF NOT EXISTS `friends` ( `friend_id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
                         `friend_email` VARCHAR(50) NOT NULL, `password` VARCHAR(20) NOT NULL, `profile_name` VARCHAR(30) NOT NULL,
@@ -88,6 +90,8 @@ if (!isset($_SESSION["user"])) {
                 if ($result->num_rows > 0) {
                     $nodata = false;
                 }
+
+                //Query the database with sample data
                 if ($nodata) {
                     foreach ($friendsdata as $data) {
                         $query = "INSERT INTO `friends` (`friend_email`, `password`, `profile_name`, `date_started`, `num_of_friends`) 
