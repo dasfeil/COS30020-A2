@@ -70,7 +70,7 @@ if ($_SESSION["user"] !== null) {
                 </div>
                 <div class="text-input">
                     <label for="pass">Password: </label>
-                    <input id="pass" type="password" name="pass"/>
+                    <input id="pass" type="password" name="pass" />
                 </div>
                 <?php
                 include_once("settings.php");
@@ -116,14 +116,16 @@ if ($_SESSION["user"] !== null) {
                         }
                         //If user email exist in table then check password, if it's valid create a class object 
                         //for session variable and redirect user
-                        $user = $result->fetch_assoc();
-                        if (strcmp($pass, $user["password"]) !== 0) {
-                            echo "<div class=\"center error\">";
-                            echo "<p>Incorrect email or password</p>";
-                            echo "</div>";
-                        } else {
-                            $_SESSION["user"] = new Friend($email);
-                            header("location: friendlist.php");
+                        else {
+                            $user = $result->fetch_assoc();
+                            if (strcmp($pass, $user["password"]) !== 0) {
+                                echo "<div class=\"center error\">";
+                                echo "<p>Incorrect email or password</p>";
+                                echo "</div>";
+                            } else {
+                                $_SESSION["user"] = new Friend($email);
+                                header("location: friendlist.php");
+                            }
                         }
                     } catch (Exception $e) {
                         echo "<div class=\"center error\">";
